@@ -1,0 +1,31 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      #路由规则
+      routes:
+        - id: order_route #路由的唯一表示
+        #- id: stock_route
+          uri: lb://order-service #需要转发的地址  lb:使用nacos中的本地负载均衡策略,改成服务名order-service
+          #断言规则 用于路由规则的匹配
+          predicates:
+            - Path=/order-serv/**
+            #http://localhost:8088/order-serv/order/add 路由到↓ 页面访问地址
+            #http://localhost:8020/order-serv/order/add
+          filters:
+            - StripPrefix=1  #转发之前去掉第一层路径，order-serv
+             #http://localhost:8020/order/add
+    #配置nacos
+    nacos:
+      discovery:
+        server-addr: 192.168.159.128:8847
+        username: nacos
+        password: nacos
+
+
+
+

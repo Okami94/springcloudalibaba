@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 192.168.159.130:8847
+      username: nacos
+      password: nacos
+
+
+
+  #  discovery注册中心配置   config配置中心配置文件
+
+
+

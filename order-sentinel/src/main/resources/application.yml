@@ -1,0 +1,13 @@
+server:
+  port: 8861
+
+spring:
+  application:
+    name: order-sentinel
+  cloud:
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8858
+      web-context-unify: false #默认调用链路收敛
+
+

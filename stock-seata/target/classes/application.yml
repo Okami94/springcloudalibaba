@@ -1,0 +1,61 @@
+server:
+  port: 8072
+
+spring:
+  application:
+    name: stock-seata
+  cloud:
+    sentinel:
+      transport:
+        dashboard: 192.168.159.130:8858
+      web-context-unify: false #默认调用链路收敛
+    nacos:
+      server-addr: 192.168.159.130:8847
+      discovery:
+        username: nacos
+        password: nacos
+        namespace: public
+        ephemeral: false
+    alibaba:
+      seata:
+        #此处有坑  service.vgroupMapping的后面那个值
+        #service.vgroupMapping.default_tx_group=default
+        tx-service-group: default_tx_group
+
+  datasource:
+    username: root
+    password: yugioh2K#
+    url: jdbc:mysql://192.168.159.130:3306/seata_stock?characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+
+seata:
+  registry:
+    #配置#seata的注册中心
+    type: nacos
+    nacos:
+      server-addr: 192.168.159.130:8847  #seata所在nacos的服务地址
+      application: seata-server #seata的服务名
+      username: nacos
+      password: nacos
+      group: SEATA_GROUP
+  config:
+    type: nacos
+    nacos:
+      server-addr: 192.168.159.130:8847
+      username: nacos
+      password: nacos
+      group: SEATA_GROUP
+
+logging:
+  level:
+    com.tulin.stock.Mapper : debug
+
+feign:
+  sentinel:
+    enabled: true

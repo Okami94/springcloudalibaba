@@ -1,0 +1,58 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors: #全局的跨域处理
+        add-to-simple-url-handler-mapping: true #解决options请求拦截的问题
+        corsConfigurations:
+          '[/**]': #允许跨域访问的资源
+            allowedOrigins: #允许哪些网站的跨域请求
+              #- "http://localhost:10010"
+              - "*"
+            allowedMethods: #允许的跨域ajax的请求方式
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: "*"  #允许在请求中携带的头信息
+            allowCredentials: true  #是否允许携带cookie
+            maxAge: 240000   #这次跨域的有效期，单位ms
+      #路由规则
+      routes:
+        - id: order_route #路由的唯一表示
+        #- id: stock_route
+          uri: lb://order-service #需要转发的地址  lb:使用nacos中的本地负载均衡策略,改成服务名order-service
+          #断言规则 用于路由规则的匹配
+          predicates:
+            - Path=/order/**
+            #http://localhost:8088/order-serv/order/add 路由到↓ 页面访问地址
+            #http://localhost:8020/order-serv/order/add
+            #- After=2022-02-26T13:00:00+08:00[Asia/Shanghai]
+            #- Header=X-Request-Id,\d+   #请求头
+            #- Method=GET
+            #- Query=name  #localhost:8088/order/add?name
+            #- Query=name,a  #localhost:8088/order/add?name=a
+            #- CheckAuth=zhangsan2    #自定义断言工厂。CheckAuth是CheckAuthRoutePredicateFactory的前缀
+
+          filters:
+            #- CheckAuth=zhangsan
+            #- AddRequestHeader=X-Request-color, red #添加请求头
+            #- StripPrefix=1  #转发之前去掉第一层路径，order-serv
+            - PrefixPath=/mall-order  #添加前缀 对应微服务需要配置context-path  server:servlet:ontext-path: /mall-order
+             #http://localhost:8020/order/add
+            #- RedirectTo=302, http://www.baidu.com/
+    #配置nacos
+    nacos:
+      discovery:
+        server-addr: 192.168.159.128:8847
+        username: nacos
+        password: nacos
+
+
+
+

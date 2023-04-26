@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 192.168.159.128:8847
+      username: nacos
+      password: nacos
+
+      discovery:
+        namespace: public
+      config:
+        #nocas配置中心默认proprtties，一旦修改成非这个，就要配置如下
+        file-extension: yaml
+        #ID编号
+        namespace: 17b38c1a-a666-4e15-94ee-561e3b3b1e81
+        #group: ps5
+        #读取自定义配置
+        shared-configs:
+          - data-id: ps5.yaml
+            group: ps5
+            refresh: true
+
+
+
+
+  #  discovery注册中心配置   config配置中心配置文件
+
+
+

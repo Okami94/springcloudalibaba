@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跨域测试</title>
+</head>
+<body>
+<button id="btn">发送Ajax请求</button>
+</body>
+<script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.js"></script>
+<script>
+
+    // 封装Ajax请求
+    function doAjax(url, data, callback) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType : 'application/json;charset=utf-8',
+            dataType: 'json',
+            success: function (data, status, xhr) {
+                if (!!callback) {
+                    callback(data);
+                }
+            },
+            error: function (xhr, textStatus, errorMessage) {
+
+                if (xhr.status !== 400) {
+                    console.log(xhr);
+                }
+
+                const data = xhr.responseJSON;
+                callback(data);
+            }
+        });
+    }
+
+    $("#btn").click(() => {
+
+        // 后台接口
+        const url = "http://localhost:8080/test8/CORS_Test";
+        const paramObject = {
+            id: "100",
+            name: "jmw"
+        };
+        doAjax(url, paramObject, function(data) {
+            console.log(data);
+        })
+    });
+</script>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跨域测试</title>
+</head>
+<body>
+<button id="btn">发送Ajax请求</button>
+</body>
+<script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.js"></script>
+<script>
+
+    // 封装Ajax请求
+    function doAjax(url, data, callback) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType : 'application/json;charset=utf-8',
+            dataType: 'json',
+            success: function (data, status, xhr) {
+                if (!!callback) {
+                    callback(data);
+                }
+            },
+            error: function (xhr, textStatus, errorMessage) {
+
+                if (xhr.status !== 400) {
+                    console.log(xhr);
+                }
+
+                const data = xhr.responseJSON;
+                callback(data);
+            }
+        });
+    }
+
+    $("#btn").click(() => {
+
+        // 后台接口
+        const url = "http://localhost:8080/test8/CORS_Test";
+        const paramObject = {
+            id: "100",
+            name: "jmw"
+        };
+        doAjax(url, paramObject, function(data) {
+            console.log(data);
+        })
+    });
+</script>
+</html>
